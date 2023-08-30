@@ -32,10 +32,10 @@ const getProductCategories = async (req, res) => {
   res.status(200).json(categories);
 };
 
-const deleteProducte = (req , res) => {
-    productModule.deleteOne({name:req.body.name})
+const deleteProducte = (req, res) => {
+  productModule.deleteOne({ name: req.body.name })
     .then(delRes => {
-        res.status(200).json(delRes)
+      res.status(200).json(delRes)
     })
 }
 
