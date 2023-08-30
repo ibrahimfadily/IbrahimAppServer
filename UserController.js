@@ -1,4 +1,4 @@
-const userModule = require("../modules/user.module");
+const userModule = require("./api/modules/user.module");
 
 const Login = (req, res) => {
 
