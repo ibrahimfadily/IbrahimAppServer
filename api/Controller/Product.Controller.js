@@ -1,4 +1,4 @@
-const productModule = require("./api/modules/product.module");
+const productModule = require("../modules/product.module");
 
 const createProduct = (req, res) => {
   const { name, categories, wight } = req.body;
