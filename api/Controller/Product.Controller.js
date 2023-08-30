@@ -1,10 +1,14 @@
+const userModule = require("../modules/user.module");
 const productModule = require("../modules/product.module");
+
 
 const createProduct = (req, res) => {
   const { name, categories, wight } = req.body;
   // const name = req.body.name
   // categories = req.body.categories
   // wight = req.body.wight
+
+
 
   productModule
     .create({
