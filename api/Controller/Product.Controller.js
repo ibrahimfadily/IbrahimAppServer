@@ -1,5 +1,5 @@
 const userModule = require("../modules/user.module");
-const productModule = require("../modules/product.module");
+// const productModule = require("../modules/product.module");
 
 
 
@@ -11,20 +11,20 @@ const createProduct = (req, res) => {
 
 
 
-  productModule
-    .create({
-      name,
-      // name: name
-      categories,
-      wight,
-    })
-    .then((p) => {
-      res.status(200).json({ message: "Done", product: p });
-    });
+  // productModule
+  //   .create({
+  //     name,
+  //     // name: name
+  //     categories,
+  //     wight,
+  //   })
+  //   .then((p) => {
+  //     res.status(200).json({ message: "Done", product: p });
+  //   });
 };
 
 const getProductCategories = async (req, res) => {
-  const allProducts = await productModule.find();
+  const allProducts = [] // await productModule.find();
 
   var categories = [];
   allProducts.forEach((product) => {
@@ -38,10 +38,10 @@ const getProductCategories = async (req, res) => {
 };
 
 const deleteProducte = (req, res) => {
-  productModule.deleteOne({ name: req.body.name })
-    .then(delRes => {
-      res.status(200).json(delRes)
-    })
+  // productModule.deleteOne({ name: req.body.name })
+  //   .then(delRes => {
+  //     res.status(200).json(delRes)
+  //   })
 }
 
 module.exports = {
