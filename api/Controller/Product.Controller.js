@@ -1,5 +1,5 @@
 const userModule = require("../modules/user.module");
-const productModule = require("../modules/product.module");
+const productModule = require("../modules/Product.module");
 
 
 
