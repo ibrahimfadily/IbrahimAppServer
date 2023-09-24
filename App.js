@@ -1,62 +1,76 @@
-import 'react-native-gesture-handler';
-import React from 'react';
-import {Image, SafeAreaView, StatusBar, Text, View} from 'react-native';
+const express = require ("express");
+const mongoose = require ("mongoose");
+const StudentModule = require("./api/modules/student.module");
+const Routs = require("./api/routs/Routs");
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Parse from 'parse/react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {UserRegistration} from './UserRegistration';
-import Styles from './Styles';
 
-// Your Parse initialization configuration goes here
-Parse.setAsyncStorage(AsyncStorage);
-const PARSE_APPLICATION_ID: string = 'APPLICATION_ID';
-const PARSE_HOST_URL: string = 'HOST_URL';
-const PARSE_JAVASCRIPT_ID: string = 'JAVASCRIPT_ID';
-Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_ID);
-Parse.serverURL = PARSE_HOST_URL;
 
-// Wrap your old app screen in a separate function, so you can create a screen
-// inside the navigator; you can also declare your screens in a separate file, 
-// export and import here to reduce some clutter
-function UserRegistrationScreen() {
-  return (
-    <>
-      <StatusBar />
-      <SafeAreaView style={Styles.login_container}>
-        <View style={Styles.login_header}>
-          <Image
-            style={Styles.login_header_logo}
-            source={require('./assets/logo-back4app.png')}
-          />
-          <Text style={Styles.login_header_text}>
-            <Text style={Styles.login_header_text_bold}>
-              {'React Native on Back4App - '}
-            </Text>
-            {' User registration'}
-          </Text>
-        </View>
-        <UserRegistration />
-      </SafeAreaView>
-    </>
-  );
-}
+const app = express();
+app.use(express.json());
+app.use('/' , Routs)
 
-// Create your main navigator here
-const Stack = createStackNavigator();
+const mongooseLink ="mongodb+srv://ibrahemfdela67:dalhom@cluster0.ezukhvp.mongodb.net/"
+//ibrahemfdela67
+mongoose.connect (mongooseLink);
+mongoose.connection.on("connected", () =>  {
+console.log("mongo connected");
+});
 
-// Add the stack navigator to your NavigationContainer
-// and in it you can add all your app screens in the order you need
-// them on your stack
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Sign Up" component={UserRegistrationScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
 
-export default App;
+// http://localhost:7000/app
+app.get("/app",(req,res)=>{
+    res.status(200).json({
+        message:"no",
+        mnsaf:"50kg",
+    });
+});
+
+
+app.get("/app", (req, res) => {
+  res.status(200).json({
+    message: "yes",
+    batata: "5kg",
+  });
+});
+
+app.post("/creatNewStudent", (req, res) => {
+  StudentModule.create({
+    name: req.body.name,
+    id: req.body.id,
+  }).then((response) => {
+    res.status(200).json({
+      message: "done",
+    });
+  }).catch(e=>{
+    res.status(500).json({message:'error'})
+  });
+});
+
+app.get("/getAllUsers",  (req, res) => {
+  // try {
+  //   const allUsers = await StudentModule.find();
+  // } catch (error) {
+  //   console.log("get all students error: ", e);
+  // }
+  StudentModule.find()
+    .then((stRes) => {
+      console.log("");
+      res.status(200).json({
+        message: "done",
+        users: stRes,
+      });
+    })
+    .catch((e) => {
+      console.log("get all students error: ", e);
+      res.status(500).json({error: true , errorMessage: e})
+    });
+});
+
+app.post('/getUserByName' , (req , res) => {
+  StudentModule.find({name:req.body.name})
+  .then(students => {
+    res.status(200).json(students)
+  })
+})
+
+module.exports = app;
