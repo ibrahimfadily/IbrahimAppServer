@@ -26,12 +26,12 @@ app.get("/app",(req,res)=>{
 });
 
 
-app.get("/login", (req, res) => {
-  res.status(200).json({
-    message: "yes",
-    batata: "5kg",
-  });
-});
+// app.get("/app", (req, res) => {
+//   res.status(200).json({
+//     message: "yes",
+//     batata: "5kg",
+//   });
+// });
 
 app.post("/creatNewStudent", (req, res) => {
   StudentModule.create({
