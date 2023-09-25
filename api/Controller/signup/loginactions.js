@@ -19,7 +19,6 @@ export const login = (loginInput) => {
           Alert.alert('Login Failed', 'Username or Password is incorrect');
         }
       })
-      
       .catch((err) => {
         Alert.alert('Login Failed', 'Some error occured, please retry');
         console.log(err);
