@@ -26,7 +26,7 @@ app.get("/app",(req,res)=>{
 });
 
 
-app.get("/app", (req, res) => {
+app.get("/login", (req, res) => {
   res.status(200).json({
     message: "yes",
     batata: "5kg",
