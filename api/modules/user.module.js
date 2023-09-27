@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 
 
 const UserSchema = new mongoose.Schema({
-    phone: {type: String , uniqe:true},
-    cars: { type: [String], default: [] },
-    card: { type: String, default: '' },
     pass: { type: String, required: true },
-    username: String,
-    email: String,
+    username:{ type: String, required: true },
+    email: { type: String, required: true },
+    phone: {type: String , uniqe:true},
+
+    data:{}
 });
 
 const userModule = mongoose.model('User', UserSchema);

@@ -1,3 +1,6 @@
 const productRouter = require("./Produst.route");
 
-module.exports = [productRouter]
+module.exports = [
+    productRouter
+    
+]
