@@ -1,5 +1,5 @@
 const app = require("../../App");
-const userModule = require("../modules/user.module");
+const userModule = require("../odules/userModule");
 
 const Login = (req, res) => {
 
@@ -41,7 +41,7 @@ app.post('/register', async (req, res) => {
 
 
 
-Register: async (req, res) => {
+Register : async (req, res) => {
   try {
     // Get user input
     const { email, password } = req.body;
