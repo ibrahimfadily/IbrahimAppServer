@@ -15,9 +15,12 @@ const Register =(req , res) => {
     username , 
     email ,  
     phone,
-  }).then(function (_createRes) {
-    res.status(200).json({ message: 'User registered successfully' });
-    res.status(404).json({ error: error.message });
+  }).then( (createRes) => {
+    res.status(200).json({ message: 'User registered successfully' , res: createRes });
+  
+  })
+  .catch(e => {
+    res.status(404).json({ error: e });
   })
 
 }
