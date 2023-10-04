@@ -2,9 +2,24 @@ const app = require("../../App");
 const userModule = require("../modules/user.module");
 
 const Login = (req, res) => {
-
-res.status(200).json({message:"ok"})
-
+  const { pass , username , email , phone} = req.body ; 
+  // ||
+  const findWith = username||email||phone
+  userModule.findOne({
+    findWith
+  }).then((findOne)=> {
+    console.log(findOne);
+    if (pass==findOne.pass) {
+      res.status(200).json({ message: 'User login successfully' , res: findOne });
+    }
+    else{
+      res.status(401).json({ error: 'wrong password or user name' });
+    }
+})
+.catch(e => {
+  res.status(500).json({ error: e });
+})
+// res.status(200).json({message:"ok"})
 }
 
 const Register =(req , res) => {
@@ -22,6 +37,38 @@ const Register =(req , res) => {
   .catch(e => {
     res.status(404).json({ error: e });
   })
+}
+
+const updatepasswordByID = async (req, res) => {
+  try {
+    console.log(req.body);//ال req هو الطلب الذي نستعمله لكي نشغل العملية والذي لديه ال body الذي نعطيه اياه في الpostman
+    const updatepasswordData = req.body.updatepassword;
+    const pass = req.body.pass
+          const updatepassword = await userModule.updateOne(
+            // { email:  },//
+            { $set: updatepasswordData },
+            { new: true }
+          );
+          if (!updatepassword) {
+            return res.status(404).json({ message: "email not found" });
+          }
+          res.status(200).json({
+            message: "done",
+            ...req.body
+          });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+const uservalidation=(user)=>{
+  let validtions=validtion(user)
+  const values = Object.values(validtions);
+  for (const v of values) {
+    if (v !== "Valid") {
+      return v;
+    }
+  }
+  return "Valid";
 }
 
 
@@ -72,6 +119,7 @@ const Register =(req , res) => {
 module.exports = {
   Login,
   Register,
+  updatepasswordByID,
 }
 
 
