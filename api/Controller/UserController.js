@@ -4,9 +4,9 @@ const userModule = require("../modules/user.module");
 const Login = (req, res) => {
   const { pass , username , email , phone} = req.body ; 
   // ||
-  const findWith = username||email||phone
+  // const findWith = username||email||phone ?? 
   userModule.findOne({
-    findWith
+    username
   }).then((findOne)=> {
     console.log(findOne);
     if (pass==findOne.pass) {
@@ -21,6 +21,7 @@ const Login = (req, res) => {
 })
 // res.status(200).json({message:"ok"})
 }
+
 
 const Register =(req , res) => {
   const {phone, pass , username , email} = req.body ; 
@@ -42,34 +43,39 @@ const Register =(req , res) => {
 const updatepasswordByID = async (req, res) => {
   try {
     console.log(req.body);//ال req هو الطلب الذي نستعمله لكي نشغل العملية والذي لديه ال body الذي نعطيه اياه في الpostman
-    const updatepasswordData = req.body.updatepassword;
-    const pass = req.body.pass
+    const email = req.body.email
+    // const updatepasswordData = req.body.updatepassword;
+    const newPass = req.body.pass
           const updatepassword = await userModule.updateOne(
-            // { email:  },//
-            { $set: updatepasswordData },
+            { email: email },
+            {$set:{pass:newPass}},
             { new: true }
           );
-          if (!updatepassword) {
+          console.log(updatepassword);
+          if (!updatepassword.matchedCount) {
             return res.status(404).json({ message: "email not found" });
+          }else{
+              res.status(200).json({
+              message: "done",
+              ...updatepassword
+            });
           }
-          res.status(200).json({
-            message: "done",
-            ...req.body
-          });
+          
+          
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
-const uservalidation=(user)=>{
-  let validtions=validtion(user)
-  const values = Object.values(validtions);
-  for (const v of values) {
-    if (v !== "Valid") {
-      return v;
-    }
-  }
-  return "Valid";
-}
+// const uservalidation=(user)=>{
+//   let validtions=validtion(user)
+//   const values = Object.values(validtions);
+//   for (const v of values) {
+//     if (v !== "Valid") {
+//       return v;
+//     }
+//   }
+//   return "Valid";
+// }
 
 
 // const User = require('./models/User'); // Import the User model
