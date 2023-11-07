@@ -2,42 +2,42 @@ const app = require("../../App");
 const userModule = require("../modules/user.module");
 
 const Login = (req, res) => {
-  const { pass , username , email , phone} = req.body ; 
+  const { pass, username, email, phone } = req.body;
   // ||
   // const findWith = username||email||phone ?? 
   userModule.findOne({
-    username
-  }).then((findOne)=> {
+    username, email, phone
+  }).then((findOne) => {
     console.log(findOne);
-    if (pass==findOne.pass) {
-      res.status(200).json({ message: 'User login successfully' , res: findOne });
+    if (pass == findOne.pass) {
+      res.status(200).json({ message: 'User login successfully', res: findOne });
     }
-    else{
+    else {
       res.status(401).json({ error: 'wrong password or user name' });
     }
-})
-.catch(e => {
-  res.status(500).json({ error: e });
-})
-// res.status(200).json({message:"ok"})
+  })
+    .catch(e => {
+      res.status(500).json({ error: e });
+    })
+  // res.status(200).json({message:"ok"})
 }
 
 
-const Register =(req , res) => {
-  const {phone, pass , username , email} = req.body ; 
+const Register = (req, res) => {
+  const { phone, pass, username, email } = req.body;
 
   userModule.create({
-    pass , 
-    username , 
-    email ,  
+    pass,
+    username,
+    email,
     phone,
-  }).then( (createRes) => {
-    res.status(200).json({ message: 'User registered successfully' , res: createRes });
-  
+  }).then((createRes) => {
+    res.status(200).json({ message: 'User registered successfully', res: createRes });
+
   })
-  .catch(e => {
-    res.status(404).json({ error: e });
-  })
+    .catch(e => {
+      res.status(404).json({ error: e });
+    })
 }
 
 const updatepasswordByID = async (req, res) => {
@@ -46,22 +46,22 @@ const updatepasswordByID = async (req, res) => {
     const email = req.body.email
     // const updatepasswordData = req.body.updatepassword;
     const newPass = req.body.pass
-          const updatepassword = await userModule.updateOne(
-            { email: email },
-            {$set:{pass:newPass}},
-            { new: true }
-          );
-          console.log(updatepassword);
-          if (!updatepassword.matchedCount) {
-            return res.status(404).json({ message: "email not found" });
-          }else{
-              res.status(200).json({
-              message: "done",
-              ...updatepassword
-            });
-          }
-          
-          
+    const updatepassword = await userModule.updateOne(
+      { email: email },
+      { $set: { pass: newPass } },
+      { new: true }
+    );
+    console.log(updatepassword);
+    if (!updatepassword.matchedCount) {
+      return res.status(404).json({ message: "email not found" });
+    } else {
+      res.status(200).json({
+        message: "done",
+        ...updatepassword
+      });
+    }
+
+
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -99,7 +99,7 @@ const updatepasswordByID = async (req, res) => {
 //   try {
 //     // Get user input
 //     const { email, password } = req.body;
-  
+
 //     // Validate user input
 //     if (!(email && password)) {
 //       res.status(404).json({ message: "All input is required" });
@@ -121,7 +121,7 @@ const updatepasswordByID = async (req, res) => {
 //       email: email.toLowerCase(), // sanitize: convert email to lowercase
 //       password: encryptedPassword,
 //     });
-  
+
 module.exports = {
   Login,
   Register,
