@@ -23,7 +23,7 @@ const Login = (req, res) => {
 }
 
 
-const Register = (req, res) => {
+const SignUp = (req, res) => {
   const { phone, pass, username, email } = req.body;
 
   userModule.create({
@@ -32,7 +32,7 @@ const Register = (req, res) => {
     email,
     phone,
   }).then((createRes) => {
-    res.status(200).json({ message: 'User registered successfully', res: createRes });
+    res.status(200).json({ message: 'User SignUp successfully', res: createRes });
 
   })
     .catch(e => {
