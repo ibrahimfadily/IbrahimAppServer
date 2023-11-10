@@ -2,11 +2,11 @@ const app = require("../../App");
 const userModule = require("../modules/user.module");
 
 const Login = (req, res) => {
-  const { pass, username, email } = req.body;
+  const { pass, username, email, phone } = req.body;
   // ||
   // const findWith = username||email||phone ?? 
   userModule.findOne({
-    username, email
+    username, email, phone
   }).then((findOne) => {
     console.log(findOne);
     if (pass == findOne.pass) {
@@ -24,13 +24,13 @@ const Login = (req, res) => {
 
 
 const Register = (req, res) => {
-  const {  pass, username, email } = req.body;
+  const { phone, pass, username, email } = req.body;
 
   userModule.create({
     pass,
     username,
     email,
-    
+    phone,
   }).then((createRes) => {
     res.status(200).json({ message: 'User registered successfully', res: createRes });
 
