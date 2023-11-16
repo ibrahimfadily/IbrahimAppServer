@@ -29,7 +29,7 @@ const Register = (req, res) => {
   userModule.create({
     pass,
     username,
-    email,
+    email
     // phone
     
   }).then((createRes) => {
