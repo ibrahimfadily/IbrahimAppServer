@@ -9,23 +9,15 @@ const app = express();
 app.use(express.json());
 app.use('/' , Routs)
 
-// const mongooseLink ="mongodb+srv://ibrahemfdela67:dalhom@cluster0.ezukhvp.mongodb.net/"
-const mongooseLink ="mongodb+srv://<ibrahim12>:<G88Nj4qzztHZD4PJ>@cluster0.xkd8ebr.mongodb.net/"
-// mongodb+srv://<username>:<password>@cluster0.xkd8ebr.mongodb.net/
-//ibrahemfdela67
+const mongooseLink ="mongodb+srv://ibrahim1233:ypPCKsXu6OQreC5m@cluster0.xkd8ebr.mongodb.net/"
 mongoose.connect (mongooseLink);
 mongoose.connection.on("connected", () =>  {
 console.log("mongo connected");
 });
 
 
-// http://localhost:7000/app
-app.get("/app",(req,res)=>{
-    res.status(200).json({
-        message:"no",
-        mnsaf:"50kg",
-    });
-});
+http://localhost:7000/app
+
 
 
 // app.get("/app", (req, res) => {
