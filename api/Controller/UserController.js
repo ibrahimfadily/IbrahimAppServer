@@ -24,13 +24,13 @@ const Login = (req, res) => {
 
 
 const Register = (req, res) => {
-  const {  pass, username, email } = req.body;
+  const {  pass, username, email , phone} = req.body;
 
   userModule.create({
     pass,
     username,
-    email
-    // phone
+    email,
+    phone
     
   }).then((createRes) => {
     res.status(200).json({ message: 'User registered successfully', res: createRes });
