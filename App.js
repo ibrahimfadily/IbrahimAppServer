@@ -10,7 +10,8 @@ app.use(express.json());
 app.use('/' , Routs)
 
 // const mongooseLink ="mongodb+srv://ibrahemfdela67:dalhom@cluster0.ezukhvp.mongodb.net/"
-const mongooseLink ="mongodb+srv://ibrahemfdela67:dalhom@cluster0.ymvpezl.mongodb.net/"
+const mongooseLink ="mongodb+srv://<ibrahim12>:<G88Nj4qzztHZD4PJ>@cluster0.xkd8ebr.mongodb.net/"
+// mongodb+srv://<username>:<password>@cluster0.xkd8ebr.mongodb.net/
 //ibrahemfdela67
 mongoose.connect (mongooseLink);
 mongoose.connection.on("connected", () =>  {
