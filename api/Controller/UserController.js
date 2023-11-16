@@ -4,7 +4,6 @@ const userModule = require("../modules/user.module");
 const Login = (req, res) => {
   const { pass, username, email } = req.body;
   // ||
-  // const findWith = username||email||phone ?? 
   userModule.findOne({
     username, email
   }).then((findOne) => {
@@ -24,13 +23,12 @@ const Login = (req, res) => {
 
 
 const Register = (req, res) => {
-  const {  pass, username, email , phone} = req.body;
+  const {  pass, username, email } = req.body;
 
   userModule.create({
     pass,
     username,
     email,
-    phone
     
   }).then((createRes) => {
     res.status(200).json({ message: 'User registered successfully', res: createRes });
@@ -57,7 +55,7 @@ const updatepasswordByID = async (req, res) => {
       return res.status(404).json({ message: "email not found" });
     } else {
       res.status(200).json({
-        message: "done",
+        message: "password change successfully",
         ...updatepassword
       });
     }
