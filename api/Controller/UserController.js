@@ -34,7 +34,7 @@ const SignUp = async (req, res) => {
       pass,
       username,
       email,
-      phone
+      phone: phone || '' // Set a default value or handle null differently
     });
 
     res.status(200).json({ message: 'User registered successfully', user: newUser });
@@ -43,6 +43,7 @@ const SignUp = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 const updatepasswordByID = async (req, res) => {
   try {
