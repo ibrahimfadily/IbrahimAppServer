@@ -1,130 +1,71 @@
 const app = require("../../App");
 const userModule = require("../modules/user.module");
 
-const Login = (req, res) => {
-  const { pass, username, email } = req.body;
-  // ||
-  userModule.findOne({
-    username, email
-  }).then((findOne) => {
-    console.log(findOne);
-    if (pass == findOne.pass) {
-      res.status(200).json({ message: 'User login successfully', res: findOne });
+const Login = async (req, res) => {
+  try {
+    const { pass, username, email } = req.body;
+
+    const user = await userModule.findOne({ $or: [{ username }, { email }] });
+    if (!user) {
+      return res.status(401).json({ error: 'User not found' });
     }
-    else {
-      res.status(401).json({ error: 'wrong password or user name' });
+
+    if (pass !== user.pass) {
+      return res.status(401).json({ error: 'Wrong password or username' });
     }
-  })
-    .catch(e => {
-      res.status(500).json({ error: e });
-    })
-  // res.status(200).json({message:"ok"})
-}
 
+    res.status(200).json({ message: 'User login successfully', user });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
-const Register = (req, res) => {
-  const {  pass, username, email } = req.body;
+const Register = async (req, res) => {
+  try {
+    const { pass, username, email, phone } = req.body;
 
-  userModule.create({
-    pass,
-    username,
-    email,
-    
-  }).then((createRes) => {
-    res.status(200).json({ message: 'User registered successfully', res: createRes });
+    const existingUser = await userModule.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ error: 'User already exists' });
+    }
 
-  })
-    .catch(e => {
-      res.status(404).json({ error: e });
-    })
-}
+    const newUser = await userModule.create({
+      pass,
+      username,
+      email,
+      phone
+    });
+
+    res.status(200).json({ message: 'User registered successfully', user: newUser });
+  } catch (error) {
+    console.error('Register error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 const updatepasswordByID = async (req, res) => {
   try {
-    console.log(req.body);//ال req هو الطلب الذي نستعمله لكي نشغل العملية والذي لديه ال body الذي نعطيه اياه في الpostman
-    const email = req.body.email
-    // const updatepasswordData = req.body.updatepassword;
-    const newPass = req.body.pass
-    const updatepassword = await userModule.updateOne(
-      { email: email },
-      { $set: { pass: newPass } },
-      { new: true }
+    const { email, pass } = req.body;
+
+    const updatedUser = await userModule.updateOne(
+      { email },
+      { $set: { pass } }
     );
-    console.log(updatepassword);
-    if (!updatepassword.matchedCount) {
-      return res.status(404).json({ message: "email not found" });
-    } else {
-      res.status(200).json({
-        message: "password change successfully",
-        ...updatepassword
-      });
+
+    if (!updatedUser.nModified) {
+      return res.status(404).json({ error: "Email not found" });
     }
 
-
+    res.status(200).json({ message: "Password changed successfully" });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error('Update password error:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
-// const uservalidation=(user)=>{
-//   let validtions=validtion(user)
-//   const values = Object.values(validtions);
-//   for (const v of values) {
-//     if (v !== "Valid") {
-//       return v;
-//     }
-//   }
-//   return "Valid";
-// }
-
-
-// const User = require('./models/User'); // Import the User model
-
-// Endpoint for user registration
-// app.post('/register', async (req, res) => {
-//     try {
-//         const { username, email, password } = req.body;
-//         const newUser = new User({ username, email, password });
-//         await newUser.save();
-//         res.status(200).json({ message: 'User registered successfully' });
-//     } catch (error) {
-//         res.status(404).json({ error: error.message });
-//     }
-// });
-
-
-
-
-// Register : async (req, res) => {
-//   try {
-//     // Get user input
-//     const { email, password } = req.body;
-
-//     // Validate user input
-//     if (!(email && password)) {
-//       res.status(404).json({ message: "All input is required" });
-//     }
-//     // check if user already exist
-//     // Validate if user exist in our database
-//     const oldUser = await userModule.findOne({ email });
-
-//     if (oldUser) {
-//       return res
-//         .status(200)
-//         .json({ message: "User Already Exist. Please Login" });
-//     }
-//     //Encrypt user password
-//     encryptedPassword = await bcrypt.hash(password, 10);
-
-//     // Create user in our database
-//     const user = await userModule.create({
-//       email: email.toLowerCase(), // sanitize: convert email to lowercase
-//       password: encryptedPassword,
-//     });
 
 module.exports = {
   Login,
   Register,
   updatepasswordByID,
-}
-
-
+};
