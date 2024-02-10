@@ -21,7 +21,7 @@ const Login = async (req, res) => {
   }
 };
 
-const Register = async (req, res) => {
+const SignUp = async (req, res) => {
   try {
     const { pass, username, email, phone } = req.body;
 
@@ -66,6 +66,6 @@ const updatepasswordByID = async (req, res) => {
 
 module.exports = {
   Login,
-  Register,
+  SignUp,
   updatepasswordByID,
 };
