@@ -26,27 +26,36 @@ const Login = async (req, res) => {
 
 const SignUp = async (req, res) => {
   try {
-    const { password, username, email, phone } = req.body;
+    const { pass, username, email, phone } = req.body;
 
+    // Check if the password is provided
+    if (!pass) {
+      return res.status(400).json({ error: 'Password is required' });
+    }
+
+    // Check if a user with the provided email already exists
     const existingUser = await userModule.findOne({ email });
     if (existingUser) {
       return res.status(409).json({ error: 'User already exists' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10); // Salt rounds = 10
+    // Create a new user with the provided information
     const newUser = await userModule.create({
-      password: hashedPassword,
-      username,
-      email,
-      phone: phone || null,
+      pass,         // User's password
+      username,     // User's username
+      email,        // User's email
+      phone: phone || null // User's phone number (optional, set to null if not provided)
     });
 
+    // Send a success response with the newly created user data
     res.status(200).json({ message: 'User registered successfully', user: newUser });
   } catch (error) {
-    console.error('Register error:', error);
+    // Handle any errors that occur during the registration process
+    console.error('Registration error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 const updatepasswordByID  = async (req, res) => {
   try {
