@@ -1,17 +1,20 @@
 const app = require("../../App");
-const userModule = require("../modules/user.module");
+
+const bcrypt = require('bcrypt');
+const userModule = require('../modules/user.module');
 
 const Login = async (req, res) => {
   try {
-    const { pass, username, email } = req.body;
+    const { password, email } = req.body;
 
-    const user = await userModule.findOne({ $or: [{ username }, { email }] });
+    const user = await userModule.findOne({ email });
     if (!user) {
       return res.status(401).json({ error: 'User not found' });
     }
 
-    if (pass !== user.pass) {
-      return res.status(401).json({ error: 'Wrong password or username' });
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Incorrect email or password' });
     }
 
     res.status(200).json({ message: 'User login successfully', user });
@@ -23,18 +26,19 @@ const Login = async (req, res) => {
 
 const SignUp = async (req, res) => {
   try {
-    const { pass, username, email, phone } = req.body;
+    const { password, username, email, phone } = req.body;
 
     const existingUser = await userModule.findOne({ email });
     if (existingUser) {
       return res.status(409).json({ error: 'User already exists' });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10); // Salt rounds = 10
     const newUser = await userModule.create({
-      pass,
+      password: hashedPassword,
       username,
       email,
-      phone: phone || null // Set phone to null if not provided
+      phone: phone || null,
     });
 
     res.status(200).json({ message: 'User registered successfully', user: newUser });
@@ -44,22 +48,21 @@ const SignUp = async (req, res) => {
   }
 };
 
-
-
-const updatepasswordByID = async (req, res) => {
+const updatepasswordByID  = async (req, res) => {
   try {
-    const { email, pass } = req.body;
+    const { email, newPassword } = req.body;
 
+    const hashedPassword = await bcrypt.hash(newPassword, 10); // Salt rounds = 10
     const updatedUser = await userModule.updateOne(
       { email },
-      { $set: { pass } }
+      { $set: { password: hashedPassword } }
     );
 
-    if (!updatedUser.nModified) {
-      return res.status(404).json({ error: "Email not found" });
+    if (!updatedUser || updatedUser.nModified === 0) {
+      return res.status(404).json({ error: 'Email not found' });
     }
 
-    res.status(200).json({ message: "Password changed successfully" });
+    res.status(200).json({ message: 'Password changed successfully' });
   } catch (error) {
     console.error('Update password error:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -69,5 +72,5 @@ const updatepasswordByID = async (req, res) => {
 module.exports = {
   Login,
   SignUp,
-  updatepasswordByID,
+  updatepasswordByID ,
 };
