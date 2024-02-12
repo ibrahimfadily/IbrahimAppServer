@@ -26,7 +26,7 @@ const Login = async (req, res) => {
 
 const SignUp = async (req, res) => {
   try {
-    const { pass, username, email, phone } = req.body;
+    const { pass, username, email } = req.body;
 
     // Check if the password is provided
     if (!pass) {
@@ -43,8 +43,7 @@ const SignUp = async (req, res) => {
     const newUser = await userModule.create({
       pass,         // User's password
       username,     // User's username
-      email,        // User's email
-      phone: phone || null // User's phone number (optional, set to null if not provided)
+      email        // User's email
     });
 
     // Send a success response with the newly created user data
