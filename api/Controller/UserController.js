@@ -1,28 +1,7 @@
 const app = require("../../App");
-
 const bcrypt = require('bcrypt');
 const userModule = require('../modules/user.module');
 
-const Login = async (req, res) => {
-  try {
-    const { password, email } = req.body;
-
-    const user = await userModule.findOne({ email });
-    if (!user) {
-      return res.status(401).json({ error: 'User not found' });
-    }
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ error: 'Incorrect email or password' });
-    }
-
-    res.status(200).json({ message: 'User login successfully', user });
-  } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
 
 const SignUp = async (req, res) => {
   try {
@@ -56,7 +35,38 @@ const SignUp = async (req, res) => {
 };
 
 
-const updatepasswordByID  = async (req, res) => {
+const Login = async (req, res) => {
+  try {
+    // Ensure both email and password are provided
+    const { password, email } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    // Find user by email
+    const user = await userModule.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ error: 'Incorrect email or password' });
+    }
+
+    // Compare passwords
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Incorrect email or password' });
+    }
+
+    // Successful login
+    res.status(200).json({ message: 'User login successfully', user });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+
+
+const updatepasswordByID = async (req, res) => {
   try {
     const { email, newPassword } = req.body;
 
@@ -77,8 +87,9 @@ const updatepasswordByID  = async (req, res) => {
   }
 };
 
+
 module.exports = {
   Login,
   SignUp,
-  updatepasswordByID ,
+  updatepasswordByID,
 };
