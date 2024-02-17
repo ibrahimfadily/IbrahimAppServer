@@ -28,7 +28,7 @@ const SignUp = async (req, res) => {
     });
 
     // Send a success response with the newly created user data
-    res.status(200).json({ message: 'User registered successfully', user: newUser });
+    res.status(200).json({ error:false ,  message: 'User registered successfully', user: newUser });
   } catch (error) {
     // Handle any errors that occur during the registration process
     console.error('Registration error:', error);
@@ -65,8 +65,6 @@ const Login = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
-
 const updatepasswordByID = async (req, res) => {
   try {
     const { email, newPassword } = req.body;
