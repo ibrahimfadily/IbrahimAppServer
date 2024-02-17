@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const userModule = require('../modules/user.module');
 
 
+
 const SignUp = async (req, res) => {
   try {
     const { pass, username, email } = req.body;
@@ -33,8 +34,6 @@ const SignUp = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
-
 const Login = async (req, res) => {
   try {
     // Ensure both email and password are provided
@@ -46,13 +45,13 @@ const Login = async (req, res) => {
     // Find user by email
     const user = await userModule.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: 'Incorrect email or password' });
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     // Compare passwords
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcrypt.compare(password, user.pass);
     if (!passwordMatch) {
-      return res.status(401).json({ error: 'Incorrect email or password' });
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     // Successful login
@@ -62,9 +61,6 @@ const Login = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
-
-
 
 const updatepasswordByID = async (req, res) => {
   try {
