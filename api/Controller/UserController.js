@@ -1,6 +1,7 @@
 const app = require("../../App");
 const bcrypt = require('bcrypt');
 const userModule = require('../modules/user.module');
+const User = require("../modules/user.module");
 
 
 
@@ -43,15 +44,18 @@ const Login = async (req, res) => {
     }
 
     // Find user by email
-    const user = await userModule.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ error: 'no such user' });
     }
 
     // Compare passwords
-    const passwordMatch = await bcrypt.compare(password, user.pass);
+    // const passwordMatch = await bcrypt.compare(password, user.password);
+
+    console.log("password: " , password , ' user.password: ' ,  user.pass);
+    const passwordMatch = password ==  user.pass;
     if (!passwordMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ error: 'Invalid credentials  passwordMatch' });
     }
 
     // Successful login
@@ -61,6 +65,7 @@ const Login = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 const updatepasswordByID = async (req, res) => {
   try {
