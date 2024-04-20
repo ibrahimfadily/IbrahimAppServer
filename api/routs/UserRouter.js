@@ -1,16 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const { handleAppointmentRegistration } = require("../Controller/handleAppointmentRegistration");
 
-// Handle appointment registration
-router.post('/handleAppointmentRegistration', async (req, res) => {
-    const { selectedDate, selectedTime } = req.body;
-    try {
-        const appointment = await handleAppointmentRegistration(selectedDate, selectedTime);
-        res.status(200).json({ appointment });
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to register appointment' });
-    }
-});
+const express = require("express");
+const { Login, SignUp, updatepasswordByID } = require("../Controller/UserController");
+const UserRouter = express.Router();
 
-module.exports = router;
+UserRouter.post("/Login", Login);
+UserRouter.post("/SignUp", SignUp);
+UserRouter.patch("/updatepasswordByID", updatepasswordByID);
+
+module.exports = UserRouter;
