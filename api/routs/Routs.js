@@ -1,9 +1,9 @@
 // const productRouter = require("./Product.route");
 const UserRouter = require("./UserRouter");
-const AppointmentRouter = require("./AppointmentRouter");
+const AppointmenCarWashtRouter = require("./AppointmenCarWashtRouter");
 
 module.exports = [
     // productRouter,
     UserRouter,
-    AppointmentRouter,
+    AppointmenCarWashtRouter,
 ];

@@ -1,6 +1,6 @@
-const Appointment = require('../modules/appointmentModel'); // Adjust the path as needed
+const Appointment = require('../modules/appointmenCarWashtModel'); // Adjust the path as needed
 
-const handleAppointmentRegistration = async (selectedDate, selectedTime) => {
+const handleAppointmenCarWashtRegistration = async (selectedDate, selectedTime) => {
     try {
         console.log('selectedTime:', selectedTime);
         console.log('typeof selectedTime:', typeof selectedTime);
@@ -37,5 +37,5 @@ const handleAppointmentRegistration = async (selectedDate, selectedTime) => {
 };
 
 module.exports = {
-    handleAppointmentRegistration,
+    handleAppointmenCarWashtRegistration,
 };
