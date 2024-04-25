@@ -29,13 +29,13 @@ const handleAppointmenTEZTtRegistration = async (selectedDate, selectedTime) => 
         // Save the appointment to the database
         const savedAppointment = await newAppointment.save();
 
-        console.log('Appointment registered:', savedAppointment);
+        console.log('Appointment TEZT registered:', savedAppointment);
         // Additional logic for handling the appointment registration
         // ...
 
         return savedAppointment;
     } catch (error) {
-        console.error('Error registering appointment:', error);
+        console.error('Error registering appointment TEZT:', error);
         throw error;
     }
 };

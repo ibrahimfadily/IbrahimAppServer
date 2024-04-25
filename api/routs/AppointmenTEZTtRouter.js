@@ -11,7 +11,7 @@ router.post('/handleAppointmenTEZTtRegistration', async (req, res) => {
         res.status(200).json({ appointment });
     } catch (error) {
         // If an error occurs, send a 500 Internal Server Error response
-        res.status(500).json({ error: 'Failed to register appointment' });
+        res.status(500).json({ error: 'Failed to register appointment TEZT' });
     }
 });
 
