@@ -1,4 +1,4 @@
-const AppointmentTEZT = require('../modules/appointment.TEZT.Model');
+const AppointmentTEZT = require('../modules/appointmentTEZTModel');
 
 const handleAppointmenTEZTtRegistration = async (selectedDate, selectedTime) => {
     try {
