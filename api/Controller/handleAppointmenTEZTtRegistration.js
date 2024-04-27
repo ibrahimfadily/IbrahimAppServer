@@ -1,11 +1,7 @@
-let Appointment;
+const appointmentTEZTModel = require('../modules/appointment.TEZT.Model');
 
 const handleAppointmenTEZTtRegistration = async (selectedDate, selectedTime) => {
     try {
-        if (!Appointment) {
-            Appointment = require('../modules/appointment.TEZT.Model');
-        }
-
         console.log('selectedTime:', selectedTime);
         console.log('typeof selectedTime:', typeof selectedTime);
 
@@ -21,7 +17,7 @@ const handleAppointmenTEZTtRegistration = async (selectedDate, selectedTime) => 
         }
  
         // Create a new appointment instance using the Mongoose model
-        const newAppointment = new Appointment({
+        const newAppointment = new appointmentTEZTModel({
             date: selectedDate,
             time: parsedTime.toLocaleTimeString(),
         });
@@ -29,13 +25,13 @@ const handleAppointmenTEZTtRegistration = async (selectedDate, selectedTime) => 
         // Save the appointment to the database
         const savedAppointment = await newAppointment.save();
 
-        console.log('Appointment TEZT registered:', savedAppointment);
+        console.log('Appointment registered TEZT:', savedAppointment);
         // Additional logic for handling the appointment registration
         // ...
 
         return savedAppointment;
     } catch (error) {
-        console.error('Error registering appointment TEZT:', error);
+        console.error('Error registering appointment:', error);
         throw error;
     }
 };
