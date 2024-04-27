@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const userInformationController = require('../controller/userInformation.controller');
+const userInformationcontroller = require('../controller/userInformation.controller');
 
 // Route to handle user information submission
-router.post('/UserInformation', userInformationController.submitUserInformation);
+router.post('/UserInformation', userInformationcontroller.submitUserInformation);
 
 module.exports = router;
