@@ -1,6 +1,26 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
-const appointmentTeztSchema = new mongoose.Schema({
+// const appointmentTeztSchema = new mongoose.Schema({
+//     date: {
+//         type: Date,
+//         required: true,
+//     },
+//     time: {
+//         type: String,
+//         required: true,
+//     },
+// });
+
+// const AppointmentTezt = mongoose.model('AppointmentTezt', appointmentTeztSchema);
+
+// module.exports = AppointmentTezt;
+
+
+
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const appointmentTEZTSchema = new Schema({
     date: {
         type: Date,
         required: true,
@@ -8,9 +28,8 @@ const appointmentTeztSchema = new mongoose.Schema({
     time: {
         type: String,
         required: true,
-    },
-});
+    },});
 
-const AppointmentTezt = mongoose.model('AppointmentTezt', appointmentTeztSchema);
+const AppointmentTEZT = mongoose.model('AppointmentTEZT', appointmentTEZTSchema);
 
-module.exports = AppointmentTezt;
+module.exports = AppointmentTEZT;

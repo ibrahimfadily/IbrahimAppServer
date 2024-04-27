@@ -1,4 +1,4 @@
-const appointmentTEZTModel = require('../modules/appointment.TEZT.Model');
+const AppointmentTEZT = require('../modules/appointment.TEZT.Model');
 
 const handleAppointmenTEZTtRegistration = async (selectedDate, selectedTime) => {
     try {
@@ -17,7 +17,7 @@ const handleAppointmenTEZTtRegistration = async (selectedDate, selectedTime) => 
         }
  
         // Create a new appointment instance using the Mongoose model
-        const newAppointment = new appointmentTEZTModel({
+        const newAppointment = new AppointmentTEZT({
             date: selectedDate,
             time: parsedTime.toLocaleTimeString(),
         });
