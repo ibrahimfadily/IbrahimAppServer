@@ -1,6 +1,6 @@
 let Appointment;
 
-const handleAppointmentRegistration = async (selectedDate, selectedTime) => {
+const handleAppointmenTEZTtRegistration = async (selectedDate, selectedTime) => {
     try {
         if (!Appointment) {
             Appointment = require('../modules/appointmentTEZTModel');
@@ -41,5 +41,5 @@ const handleAppointmentRegistration = async (selectedDate, selectedTime) => {
 };
 
 module.exports = {
-    handleAppointmentRegistration,
+    handleAppointmenTEZTtRegistration,
 };
