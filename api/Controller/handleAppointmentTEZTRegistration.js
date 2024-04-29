@@ -10,7 +10,7 @@ const handleAppointmentTEZTRegistration = async (selectedDate, selectedTime) => 
         console.log('typeof selectedTime:', typeof selectedTime);
 
         // Extract the time string from the object if necessary
-        const timeString = selectedTime.selectedTime || selectedTime;
+        const timeString = typeof selectedTime === 'object' ? selectedTime.selectedTime : selectedTime;
 
         // Parse timeString into a Date object
         const parsedTime = new Date(timeString);
@@ -23,7 +23,7 @@ const handleAppointmentTEZTRegistration = async (selectedDate, selectedTime) => 
         // Create a new appointment instance using the Mongoose model
         const newAppointment = new Appointment({
             date: selectedDate,
-            time: parsedTime.toLocaleTimeString(),
+            time: parsedTime.toISOString(), // or use another method to format the time
         });
 
         // Save the appointment to the database
