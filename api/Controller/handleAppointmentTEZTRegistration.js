@@ -1,10 +1,9 @@
 let Appointment;
-Appointment = require('../modules/appointmentTEZTModel');
-
 
 const handleAppointmentTEZTRegistration = async (selectedDate, selectedTime) => {
     try {
         if (!Appointment) {
+            Appointment = require('../modules/appointmentTEZTModel');
         }
 
         console.log('selectedTime:', selectedTime);
