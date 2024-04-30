@@ -12,7 +12,7 @@ router.post('/handleAppointmentTEZTRegistration', async (req, res) => {
         res.status(200).json({ appointment });
     } catch (error) {
         console.error('Error registering appointment:', error);
-        res.status(500).json({ error: 'Failed to register appointment. Please try again.' });
+        res.status(5010).json({ error: 'Failed to register appointment. Please try again.' });
     }
 });
 
