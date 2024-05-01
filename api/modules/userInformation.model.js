@@ -11,7 +11,7 @@ const userInformationSchema = new mongoose.Schema({
   },
   carType: {
     type: String,
-    required: true,
+    required: false,
   },
   price: {
     type: Number,
