@@ -6,6 +6,6 @@ const appointmentTEZTSchema = new Schema({
     time: { type: String, required: true }
 });
 
-const AppointmentTEZT = mongoose.model('AppointmentTEZT', appointmentTEZTSchema);
+const appointmentTEZTModel = mongoose.model('appointmentTEZTModel', appointmentTEZTSchema);
 
-module.exports = AppointmentTEZT;
+module.exports = appointmentTEZTModel;
